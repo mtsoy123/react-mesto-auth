@@ -3,66 +3,111 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import React from 'react';
+import PopupWithForm from './PopupWithForm';
 
 function App() {
 
-  const [isAddPlacePopupOpen, openAddPlacePopup] = React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  let [selectedCard, setViewPlacePopup] = React.useState({})
+
   function handleAddPlaceClick() {
-    openAddPlacePopup((isAddPlacePopupOpen) => !isAddPlacePopupOpen)
+    setIsAddPlacePopupOpen((isAddPlacePopupOpen) => !isAddPlacePopupOpen)
   }
 
-
-  const [isEditAvatarPopupOpen, openEditAvatarPopup] = React.useState(false);
   function handleEditAvatarClick() {
-    openEditAvatarPopup((isEditAvatarPopupOpen) => !isEditAvatarPopupOpen)
+    setIsEditAvatarPopupOpen((isEditAvatarPopupOpen) => !isEditAvatarPopupOpen)
   }
 
-
-  const [isEditProfilePopupOpen, openEditProfilePopup] = React.useState(false);
   function handleEditProfileClick() {
-    openEditProfilePopup((isEditProfilePopupOpen) => !isEditProfilePopupOpen)
+    setIsEditProfilePopupOpen((isEditProfilePopupOpen) => !isEditProfilePopupOpen)
   }
 
-  let [selectedCard, openViewPlacePopup] = React.useState({})
   function handleCardClick(card) {
-    openViewPlacePopup((selectedCard = {
-      isOpen: true,
-      name: card.name,
-      link: card.link,
+    setViewPlacePopup((selectedCard = {
+        isOpen: true,
+        name: card.name,
+        link: card.link,
       })
     )
   }
 
   function closeAllPopups(evt) {
     if (evt.target.classList.contains('pop-up_opened') || evt.target.classList.contains('pop-up__button-close')) {
-      openEditProfilePopup()
-      openEditAvatarPopup()
-      openAddPlacePopup()
-      openViewPlacePopup({})
+      setIsEditProfilePopupOpen()
+      setIsEditAvatarPopupOpen()
+      setIsAddPlacePopupOpen()
+      setViewPlacePopup({})
     }
   }
 
   return (
     <>
-      <Header />
+      <Header/>
       <Main
         onEditProfile={handleEditProfileClick}
-        isEditAvatarPopupOpen={isEditAvatarPopupOpen}
-
         onEditAvatar={handleEditAvatarClick}
-        isEditProfilePopupOpen={isEditProfilePopupOpen}
-
         onAddPlace={handleAddPlaceClick}
-        isAddPlacePopupOpen={isAddPlacePopupOpen}
-
         onClose={closeAllPopups}
-
         selectedCard={selectedCard}
         onCard={handleCardClick}
       />
-      <Footer />
-  </>
-);
+
+      <PopupWithForm
+        isOpen={isEditProfilePopupOpen}
+        title="Редактировать профиль"
+        name="edit-profile"
+        onClose={closeAllPopups}
+        buttonLabel="Сохранить"
+      >
+        <label htmlFor="pop-up__name-input" className="pop-up__label">
+          <input id="pop-up__name-input" type="text" name="edit-name" minLength="2" maxLength="40" required
+                 className="pop-up__input pop-up__input_type_name" placeholder="Имя, фамилия"/>
+          <span className="pop-up__name-input-error pop-up__error-message"></span>
+        </label>
+        <label htmlFor="pop-up__job-input" className="pop-up__label">
+          <input id="pop-up__job-input" type="text" name="edit-job" minLength="2" maxLength="200" required
+                 className="pop-up__input pop-up__input_type_job" placeholder="О себе"/>
+          <span className="pop-up__job-input-error pop-up__error-message"></span>
+        </label>
+      </PopupWithForm>
+
+      <PopupWithForm
+        isOpen={isEditAvatarPopupOpen}
+        title="Обновить аватар"
+        name="edit-avatar"
+        onClose={closeAllPopups}
+        buttonLabel="Сохранить"
+      >
+        <label htmlFor="pop-up__name-input" className="pop-up__label">
+          <input id="pop-up__avatar-input" type="url" name="edit-avatar" required
+                 className="pop-up__input pop-up__input_type_avatar" placeholder="Ссылка на аватар"/>
+          <span className="pop-up__avatar-input-error pop-up__error-message"></span>
+        </label>
+      </PopupWithForm>
+
+      <PopupWithForm
+        isOpen={isAddPlacePopupOpen}
+        title="Новое место"
+        name="add-place"
+        onClose={closeAllPopups}
+        buttonLabel="Создать"
+      >
+        <label htmlFor="pop-up__place-input" className="pop-up__label">
+          <input id="pop-up__place-input" type="text" name="add-place" placeholder="Название"
+                 className="pop-up__input pop-up__input_type_place" minLength="2" maxLength="30" required/>
+          <span className="pop-up__place-input-error pop-up__error-message"></span>
+        </label>
+        <label htmlFor="pop-up__link-input" className="pop-up__label">
+          <input id="pop-up__link-input" type="url" name="add-link" placeholder="Ссылка на картинку"
+                 className="pop-up__input pop-up__input_type_link" required/>
+          <span className="pop-up__link-input-error pop-up__error-message"></span>
+        </label>
+      </PopupWithForm>
+      <Footer/>
+    </>
+  );
 }
 
 export default App;
