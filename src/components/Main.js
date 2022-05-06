@@ -1,7 +1,8 @@
 import React from 'react';
-import {api} from '../utils/Api';
 import ImagePopup from './ImagePopup';
 import Card from './Card';
+import CurrentUserContext from '../contexts/CurrentUserContext';
+import CardsContext from '../contexts/CardsContext';
 
 function Main({
                 onEditProfile,
@@ -9,27 +10,13 @@ function Main({
                 onAddPlace,
                 onClose,
                 selectedCard,
-                onCard
+                onCard,
               }) {
 
-  const [userName, setUserName] = React.useState('')
-  const [userDescription, setUserDescription] = React.useState('')
-  const [userAvatar, setUserAvatar] = React.useState('')
-  const [cards, setInitialCards] = React.useState([])
+  const currentUser = React.useContext(CurrentUserContext);
+  const {avatar, name, about} = currentUser;
 
-  React.useEffect(() => {
-    Promise.all([api.getProfile(), api.getInitialCards()])
-    .then(([userProfile, cards]) => {
-      setUserName(userProfile.name)
-      setUserAvatar(userProfile.avatar)
-      setUserDescription(userProfile.about)
-
-      setInitialCards(cards)
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }, []);
+  const cards = React.useContext(CardsContext)
 
   return (
     <main>
@@ -37,12 +24,12 @@ function Main({
         <div className="profile__info">
           <button type="button" aria-label="Редактировать аватар" className="profile__button-avatar"
                   onClick={onEditAvatar}>
-            <img src={userAvatar} style={{backgroundImage: `url(${userAvatar})`}} alt="Аватар"
+            <img src={avatar} style={{backgroundImage: `url(${avatar})`}} alt="Аватар"
                  className="profile__avatar"/>
           </button>
           <div className="profile__info-container">
-            <h1 className="profile__name">{userName}</h1>
-            <p className="profile__job">{userDescription}</p>
+            <h1 className="profile__name">{name}</h1>
+            <p className="profile__job">{about}</p>
             <button type="button" aria-label="Редактировать профиль" className="profile__button-edit"
                     onClick={onEditProfile}></button>
           </div>
