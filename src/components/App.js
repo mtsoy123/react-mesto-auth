@@ -7,6 +7,7 @@ import PopupWithForm from './PopupWithForm';
 import {api} from '../utils/Api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import CardsContext from '../contexts/CardsContext';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
 
@@ -78,24 +79,7 @@ function App() {
           onCard={handleCardClick}
         />
 
-        <PopupWithForm
-          isOpen={isEditProfilePopupOpen}
-          title="Редактировать профиль"
-          name="edit-profile"
-          onClose={closeAllPopups}
-          buttonLabel="Сохранить"
-        >
-          <label htmlFor="pop-up__name-input" className="pop-up__label">
-            <input id="pop-up__name-input" type="text" name="edit-name" minLength="2" maxLength="40" required
-                   className="pop-up__input pop-up__input_type_name" placeholder="Имя, фамилия"/>
-            <span className="pop-up__name-input-error pop-up__error-message"></span>
-          </label>
-          <label htmlFor="pop-up__job-input" className="pop-up__label">
-            <input id="pop-up__job-input" type="text" name="edit-job" minLength="2" maxLength="200" required
-                   className="pop-up__input pop-up__input_type_job" placeholder="О себе"/>
-            <span className="pop-up__job-input-error pop-up__error-message"></span>
-          </label>
-        </PopupWithForm>
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}/>
 
         <PopupWithForm
           isOpen={isEditAvatarPopupOpen}
