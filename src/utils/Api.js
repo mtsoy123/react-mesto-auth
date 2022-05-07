@@ -48,14 +48,41 @@ class Api {
     })
   }
 
-  deleteLike(id) {
+  changeLikeCardStatus(id, isLiked) {
+    /*isLiked ? this._deleteLike(id) : this._addLike(id)*/
+    /*if (isLiked) {
+      this._deleteLike(id)
+    } else (!isLiked) {
+      this._addLike(id)
+    }*/
+
+    // todo check if !isLiked or isLiked
+    // todo delete method deleteLike && addLike
+    if (!isLiked) {
+      console.log(321)
+      return this._checkResponse(`${this._baseUrl}/cards/${id}/likes`, {
+        method: 'DELETE',
+        headers: this._headers
+      })
+    } else {
+      console.log(123)
+      return this._checkResponse(`${this._baseUrl}/cards/${id}/likes`, {
+        method: 'PUT',
+        headers: this._headers
+      })
+    }
+  }
+
+  _deleteLike(id) {
+    console.log(321)
     return this._checkResponse(`${this._baseUrl}/cards/${id}/likes`, {
       method: 'DELETE',
       headers: this._headers
     })
   }
 
-  addLike(id) {
+  _addLike(id) {
+    console.log(123)
     return this._checkResponse(`${this._baseUrl}/cards/${id}/likes`, {
       method: 'PUT',
       headers: this._headers

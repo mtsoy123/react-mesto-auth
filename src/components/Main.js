@@ -3,6 +3,7 @@ import ImagePopup from './ImagePopup';
 import Card from './Card';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import CardsContext from '../contexts/CardsContext';
+import {api} from '../utils/Api';
 
 function Main({
                 onEditProfile,
@@ -16,7 +17,21 @@ function Main({
   const currentUser = React.useContext(CurrentUserContext);
   const {avatar, name, about} = currentUser;
 
-  const cards = React.useContext(CardsContext)
+  const cards = React.useContext(CardsContext).cards;
+  const setCards = React.useContext(CardsContext).setCards;
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+// todo add catch
+    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    });
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id)
+    .then(res => setCards(oldCards => oldCards.filter(newCard => newCard._id != card._id)))
+  }
 
   return (
     <main>
@@ -42,7 +57,10 @@ function Main({
           <Card
             onCardClick={onCard}
             cardProps={item}
-            key={item._id}/>
+            key={item._id}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+          />
         ))}
       </section>
 

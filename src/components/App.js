@@ -15,7 +15,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   let [selectedCard, setViewPlacePopup] = React.useState({})
   let [currentUser, setCurrentUser] = React.useState({});
-  let [initialCards, setInitialCards] = React.useState([]);
+  let [cards, setCards] = React.useState([]);
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen((isAddPlacePopupOpen) => !isAddPlacePopupOpen)
@@ -33,7 +33,7 @@ function App() {
     Promise.all([api.getProfile(), api.getInitialCards()])
     .then(([userProfile, cards]) => {
       setCurrentUser(currentUser = userProfile)
-      setInitialCards(cards)
+      setCards(cards)
     })
     .catch((err) => {
       console.log(err);
@@ -64,7 +64,10 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <CardsContext.Provider value={initialCards}>
+      <CardsContext.Provider value={{
+        cards,
+        setCards
+      }}>
         <Header/>
         <Main
           onEditProfile={handleEditProfileClick}
