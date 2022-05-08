@@ -8,6 +8,7 @@ import {api} from '../utils/Api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import CardsContext from '../contexts/CardsContext';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 
 function App() {
 
@@ -30,6 +31,37 @@ function App() {
     setIsEditProfilePopupOpen((isEditProfilePopupOpen) => !isEditProfilePopupOpen)
   }
 
+  function handleUpdateUser(userInfo) { //принимает объект с настройками
+    api.editProfile(userInfo)
+    .then(res => {
+      setCurrentUser(currentUser = {
+        name: res.name,
+        about: res.about,
+        avatar: res.avatar
+      })
+    })
+    .then(res => closeAllPopups)
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
+  function handleUpdateAvatar(link) {
+    api.editAvatar(link)
+    .then(res => {
+      setCurrentUser(currentUser = {
+        name: res.name,
+        about: res.about,
+        avatar: res.avatar
+      })
+    })
+    .then(res => closeAllPopups)
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
+
   React.useEffect(() => {
     Promise.all([api.getProfile(), api.getInitialCards()])
     .then(([userProfile, cards]) => {
@@ -51,13 +83,14 @@ function App() {
   }
 
   function closeAllPopups(evt) {
-    if (evt.target.classList.contains('pop-up_opened') || evt.target.classList.contains('pop-up__button-close')) {
+    if (evt.target.classList.contains('pop-up_opened') || evt.target.classList.contains('pop-up__button-close') || (evt.target.type === 'submit')) {
       setIsEditProfilePopupOpen()
       setIsEditAvatarPopupOpen()
       setIsAddPlacePopupOpen()
       setViewPlacePopup({})
     }
   }
+
 
   /*React.useEffect(() => {
     console.log(currentUser)
@@ -79,21 +112,17 @@ function App() {
           onCard={handleCardClick}
         />
 
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}/>
-
-        <PopupWithForm
-          isOpen={isEditAvatarPopupOpen}
-          title="Обновить аватар"
-          name="edit-avatar"
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          buttonLabel="Сохранить"
-        >
-          <label htmlFor="pop-up__name-input" className="pop-up__label">
-            <input id="pop-up__avatar-input" type="url" name="edit-avatar" required
-                   className="pop-up__input pop-up__input_type_avatar" placeholder="Ссылка на аватар"/>
-            <span className="pop-up__avatar-input-error pop-up__error-message"></span>
-          </label>
-        </PopupWithForm>
+          onUpdateUser={handleUpdateUser}
+        />
+
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
         <PopupWithForm
           isOpen={isAddPlacePopupOpen}
