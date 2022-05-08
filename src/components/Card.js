@@ -8,6 +8,8 @@ function Card({
                 onCardDelete
               }) {
 
+  const currentUser = React.useContext(CurrentUserContext)
+
   function handleClick() {
     onCardClick(cardProps);
   }
@@ -19,9 +21,7 @@ function Card({
   function handleDeleteClick() {
     onCardDelete(cardProps);
   }
-
-  const currentUser = React.useContext(CurrentUserContext)
-
+  
   const isOwn = cardProps.owner._id === currentUser._id;
 
   const cardDeleteButtonClassName = (

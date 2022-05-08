@@ -50,13 +50,11 @@ class Api {
 
   changeLikeCardStatus(id, isLiked) {
     if (!isLiked) {
-      console.log(321)
       return this._checkResponse(`${this._baseUrl}/cards/${id}/likes`, {
         method: 'DELETE',
         headers: this._headers
       })
     } else {
-      console.log(123)
       return this._checkResponse(`${this._baseUrl}/cards/${id}/likes`, {
         method: 'PUT',
         headers: this._headers
@@ -64,21 +62,6 @@ class Api {
     }
   }
 
-  /*  _deleteLike(id) {
-      console.log(321)
-      return this._checkResponse(`${this._baseUrl}/cards/${id}/likes`, {
-        method: 'DELETE',
-        headers: this._headers
-      })
-    }
-
-    _addLike(id) {
-      console.log(123)
-      return this._checkResponse(`${this._baseUrl}/cards/${id}/likes`, {
-        method: 'PUT',
-        headers: this._headers
-      })
-    }*/
 }
 
 export const api = new Api({

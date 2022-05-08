@@ -1,11 +1,5 @@
 function PopupWithForm({name, isOpen, onClose, title, children, buttonLabel, onSubmit}) {
 
-  /*  function closePopup(evt) {
-      if (evt.target.classList.contains('pop-up_opened') || evt.target.classList.contains('pop-up__button-close')) {
-        onClose()
-      }
-    }*/
-
   return (
     <div className={`pop-up pop-up_type_${name} ${isOpen && 'pop-up_opened'}`}
          onClick={onClose}>
