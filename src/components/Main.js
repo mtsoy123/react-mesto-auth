@@ -1,4 +1,4 @@
-import React from 'react';
+import {useContext} from 'react';
 import ImagePopup from './ImagePopup';
 import Card from './Card';
 import CurrentUserContext from '../contexts/CurrentUserContext';
@@ -15,7 +15,7 @@ function Main({
                 onCardDelete
               }) {
 
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
   const {avatar, name, about} = currentUser;
 
   return (
