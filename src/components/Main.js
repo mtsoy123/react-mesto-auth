@@ -2,6 +2,7 @@ import {useContext} from 'react';
 import ImagePopup from './ImagePopup';
 import Card from './Card';
 import CurrentUserContext from '../contexts/CurrentUserContext';
+import Footer from './Footer';
 
 function Main({
                 onEditProfile,
@@ -14,7 +15,6 @@ function Main({
                 onCardLike,
                 onCardDelete
               }) {
-
   const currentUser = useContext(CurrentUserContext);
   const {avatar, name, about} = currentUser;
 
@@ -55,7 +55,7 @@ function Main({
         onClose={onClose}
       >
       </ImagePopup>
-
+      <Footer/>
     </main>
   )
 }
