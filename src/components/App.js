@@ -167,7 +167,7 @@ function App() {
       <Header
         loggedIn={loggedIn}
         userData={userEmail}
-        handleLogOut={setLoggedIn}
+        onSignOut={setLoggedIn}
       />
       <Switch>
         <ProtectedRoute

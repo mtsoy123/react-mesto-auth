@@ -2,7 +2,7 @@ import logo from '../images/logo.svg';
 import {Link, Route, useHistory} from 'react-router-dom';
 import React from 'react'
 
-function Header({loggedIn, userData, handleLogOut}) {
+function Header({loggedIn, userData, onSignOut}) {
 
   const history = useHistory()
 
@@ -19,7 +19,7 @@ function Header({loggedIn, userData, handleLogOut}) {
         {loggedIn ?
           <div className="header__userinfo">
             <p className="header__title">{userData}</p>
-            <a className="header__link" onClick={signOut}>Выйти</a>
+            <a className="header__link" onClick={onSignOut}>Выйти</a>
           </div>
           :
           <>
