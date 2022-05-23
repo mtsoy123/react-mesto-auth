@@ -1,12 +1,10 @@
-import {Link, useHistory} from 'react-router-dom';
-import {register} from './Auth';
+import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 
 function Register({handleRegister}) {
 
-  let [email, setEmail] = useState('');
-  let [password, setPassword] = useState('');
-  const history = useHistory();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     setEmail('');
@@ -21,35 +19,26 @@ function Register({handleRegister}) {
     setPassword(e.target.value);
   }
 
-  function handleSubmit(e) {
+  function onRegister(e) {
     e.preventDefault();
-    register(email, password)
-    .then((res) => {
-      if (res) {
-        handleRegister('success')
-        history.push('/sign-in');
-      } else {
-        handleRegister('error')
-      }
-    })
-    .catch(err => console.log(err))
-    ;
+    handleRegister(email, password);
   }
 
   return (
     <>
       <div className="register register__container">
         <h2 className="register__title">Регистрация</h2>
-        <form noValidate name="Регистрация" onSubmit={handleSubmit}>
+        <form noValidate name="Регистрация" onSubmit={onRegister}>
           <label htmlFor="register__email-input" className="register__label">
             <input id="register__email-input" type="text" name="email" placeholder="Email"
                    className="register__input register__input_type_email" minLength="2" maxLength="30" required
-                   onChange={handleEmailChange}/>
+                   onChange={handleEmailChange} value={email}/>
             <span className="pop-up__place-input-error pop-up__error-message"></span>
           </label>
           <label htmlFor="register__password-input" className="register__label">
             <input id="register__password-input" type="password" name="add-link" placeholder="Пароль"
-                   className="register__input register__input_type_link" required onChange={handlePasswordChange}/>
+                   className="register__input register__input_type_link" required onChange={handlePasswordChange}
+                   value={password}/>
             <span className="pop-up__link-input-error pop-up__error-message"></span>
           </label>
           <button type="submit" aria-label="Зарегистрироваться" className="register__button">Зарегистрироваться</button>

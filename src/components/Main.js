@@ -1,15 +1,11 @@
 import {useContext} from 'react';
-import ImagePopup from './ImagePopup';
 import Card from './Card';
 import CurrentUserContext from '../contexts/CurrentUserContext';
-import Footer from './Footer';
 
 function Main({
                 onEditProfile,
                 onEditAvatar,
                 onAddPlace,
-                onClose,
-                selectedCard,
                 onCard,
                 cards,
                 onCardLike,
@@ -49,13 +45,6 @@ function Main({
         ))}
       </section>
 
-      <ImagePopup
-        isOpen={selectedCard.isOpen}
-        selectedCard={selectedCard}
-        onClose={onClose}
-      >
-      </ImagePopup>
-      <Footer/>
     </main>
   )
 }
