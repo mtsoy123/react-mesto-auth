@@ -3,16 +3,17 @@ import {useEffect, useRef} from 'react';
 
 function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
 
-  const avatar = useRef()
+  const avatarRef = useRef();
 
   useEffect(() => {
-    avatar.current.value = ""
+    avatarRef.current.value = ''
   }, [isOpen])
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit(event) {
+    event.preventDefault();
+
     onUpdateAvatar({
-      avatar: avatar.current.value,
+      avatar: avatarRef.current.value,
     });
   }
 
@@ -26,7 +27,7 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
       onSubmit={handleSubmit}
     >
       <label htmlFor="pop-up__name-input" className="pop-up__label">
-        <input ref={avatar} id="pop-up__avatar-input" type="url" name="edit-avatar" required
+        <input ref={avatarRef} id="pop-up__avatar-input" type="url" name="edit-avatar" required
                className="pop-up__input pop-up__input_type_avatar" placeholder="Ссылка на аватар"/>
         <span className="pop-up__avatar-input-error pop-up__error-message"></span>
       </label>

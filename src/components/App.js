@@ -64,13 +64,14 @@ function App() {
         avatar: res.avatar
       })
     })
-    .then(res => closeAllPopups)
+    .then(res => closeAllPopups())
     .catch((err) => {
       console.log(err);
     });
   }
 
   function handleUpdateAvatar(link) {
+    console.log(link);
     api.editAvatar(link)
     .then(res => {
       setCurrentUser({
@@ -79,7 +80,7 @@ function App() {
         avatar: res.avatar
       })
     })
-    .then(res => closeAllPopups)
+    .then(res => closeAllPopups())
     .catch((err) => {
       console.log(err);
     });
@@ -118,20 +119,31 @@ function App() {
     .then(newPlace => {
       setCards([newPlace, ...cards]);
     })
+    .then(res => closeAllPopups())
     .catch((err) => {
       console.log(err);
     });
   }
 
-  function closeAllPopups(evt) {
-    if (evt.target.classList.contains('pop-up_opened') || evt.target.classList.contains('pop-up__button-close') || (evt.target.type === 'submit')) {
-      setIsEditProfilePopupOpen()
-      setIsEditAvatarPopupOpen()
-      setIsAddPlacePopupOpen()
-      setIsInfoTooltipOpened()
-      setViewPlacePopup({})
-    }
+  function closeAllPopups() {
+    setIsEditProfilePopupOpen()
+    setIsEditAvatarPopupOpen()
+    setIsAddPlacePopupOpen()
+    setIsInfoTooltipOpened()
+    setViewPlacePopup({})
   }
+
+  /*
+    function closeAllPopups(evt) {
+      if (evt.target.classList.contains('pop-up_opened') || evt.target.classList.contains('pop-up__button-close') /!*|| (evt.target.type === 'submit')*!/) {
+        setIsEditProfilePopupOpen()
+        setIsEditAvatarPopupOpen()
+        setIsAddPlacePopupOpen()
+        setIsInfoTooltipOpened()
+        setViewPlacePopup({})
+      }
+    }
+  */
 
   function checkToken() {
     if (localStorage.getItem('token')) {
