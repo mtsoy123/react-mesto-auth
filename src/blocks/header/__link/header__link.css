@@ -8,6 +8,7 @@
   text-align: right;
   color: #a9a9a9;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .header__link:hover {

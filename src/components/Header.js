@@ -8,7 +8,7 @@ function Header({loggedIn, userData, onSignOut}) {
 
   function signOut() {
     localStorage.removeItem('token');
-    handleLogOut(false);
+    onSignOut(false);
     history.push('/sign-in');
   }
 
@@ -19,7 +19,7 @@ function Header({loggedIn, userData, onSignOut}) {
         {loggedIn ?
           <div className="header__userinfo">
             <p className="header__title">{userData}</p>
-            <a className="header__link" onClick={onSignOut}>Выйти</a>
+            <a className="header__link" onClick={signOut}>Выйти</a>
           </div>
           :
           <>

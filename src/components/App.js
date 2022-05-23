@@ -12,26 +12,28 @@ import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
-import {getContent} from './Auth';
+import {authorize, getContent, register} from './Auth';
+import Footer from './Footer';
+import ImagePopup from './ImagePopup';
 
 function App() {
 
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  let [selectedCard, setViewPlacePopup] = useState({})
-  let [currentUser, setCurrentUser] = useState({});
+  const [selectedCard, setViewPlacePopup] = useState({})
+  const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState();
   const [isInfoTooltipOpened, setIsInfoTooltipOpened] = useState(false);
-  const [status, setStatus] = useState();
+  const [status, setStatus] = useState('');
   const history = useHistory();
 
   useEffect(() => {
     Promise.all([api.getProfile(), api.getInitialCards()])
     .then(([userProfile, cards]) => {
-      setCurrentUser(currentUser = userProfile)
+      setCurrentUser(userProfile)
       setCards(cards)
     })
     .catch((err) => {
@@ -56,7 +58,7 @@ function App() {
   function handleUpdateUser(userInfo) {
     api.editProfile(userInfo)
     .then(res => {
-      setCurrentUser(currentUser = {
+      setCurrentUser({
         name: res.name,
         about: res.about,
         avatar: res.avatar
@@ -71,7 +73,7 @@ function App() {
   function handleUpdateAvatar(link) {
     api.editAvatar(link)
     .then(res => {
-      setCurrentUser(currentUser = {
+      setCurrentUser({
         name: res.name,
         about: res.about,
         avatar: res.avatar
@@ -84,11 +86,11 @@ function App() {
   }
 
   function handleCardClick(card) {
-    setViewPlacePopup((selectedCard = {
+    setViewPlacePopup({
         isOpen: true,
         name: card.name,
         link: card.link,
-      })
+      }
     )
   }
 
@@ -131,11 +133,6 @@ function App() {
     }
   }
 
-  function handleLogin(event) {
-    event.preventDefault();
-    setLoggedIn(true)
-  }
-
   function checkToken() {
     if (localStorage.getItem('token')) {
       const token = localStorage.getItem('token')
@@ -153,13 +150,36 @@ function App() {
     }
   }
 
-  function handleRegister(status) {
-    if (status === 'success') {
-      setStatus('success');
-    } else {
-      setStatus('error');
+  function handleLogin(email, password) {
+
+    if (!email || !password) {
+      return
     }
-    setIsInfoTooltipOpened(true);
+
+    authorize(email, password)
+    .then((res) => {
+      if (res.token) {
+        setLoggedIn(true)
+        history.push('/')
+      }
+    })
+    .catch(err => console.log(err))
+  }
+
+  function handleRegister(email, password) {
+
+    register(email, password)
+    .then((res) => {
+      if (res) {
+        setStatus('success');
+        history.push('/sign-in');
+        setIsInfoTooltipOpened(true);
+      }
+    })
+    .catch(err => {
+      setStatus('error');
+      setIsInfoTooltipOpened(true);
+    });
   }
 
   return (
@@ -228,6 +248,15 @@ function App() {
         onClose={closeAllPopups}
         status={status}
       />
+
+      <ImagePopup
+        isOpen={selectedCard.isOpen}
+        selectedCard={selectedCard}
+        onClose={closeAllPopups}
+      >
+      </ImagePopup>
+
+      <Footer/>
 
     </CurrentUserContext.Provider>
   );
