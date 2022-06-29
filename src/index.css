@@ -49,6 +49,7 @@
 @import url(./blocks/grid/__like-button/_active/grid__like-button_active.css);
 @import url(./blocks/grid/__like-container/grid__like-container.css);
 @import url(./blocks/grid/__like-count/grid__like-count.css);
+@import url(./blocks/grid/__delete-element/_hidden/grid__delete-element_hidden.css);
 
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__copyright/footer__copyright.css);
