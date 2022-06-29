@@ -14,9 +14,9 @@ https://react-mesto-auth-two.vercel.app
 
 ## Технологии
 
-HTML
-CSS
-JavaScript
+HTML,
+CSS,
+JavaScript,
 React.js
 
 ## Планы по доработке
