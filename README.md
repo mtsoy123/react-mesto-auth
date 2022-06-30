@@ -1,10 +1,10 @@
-# Проект: Mesto
+# Проект Mesto. Фронтенд
 ![logo](https://github.com/mtsoy123/react-mesto-auth/blob/main/src/images/logoDark.svg)
 
-## Link
+## Ссылка
 https://react-mesto-auth-two.vercel.app
 
-## Getting Started
+## Запуск приложения
 `npm run start`
 
 ## О проекте
